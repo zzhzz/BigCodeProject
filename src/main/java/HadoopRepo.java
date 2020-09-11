@@ -55,9 +55,10 @@ public class HadoopRepo implements IProjectRepo {
     }
 
     @Override
-    public void checkout_to(File directory, String branch_name) {
+    public void checkout_to(File directory, String bug_id) {
         System.out.println("Start Cloneing");
         try {
+            String branch_name = bug_branch_prefix + bug_id;
             Git.cloneRepository().setURI(this.path).setDirectory(directory)
                     .setBranchesToClone(Collections.singletonList("refs/heads/" + branch_name))
                     .setBranch("refs/heads/" + branch_name)

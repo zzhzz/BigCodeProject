@@ -10,6 +10,11 @@ public class Main {
             repo.init();
             FaultDataset dataset = new FaultDataset(repo.getBugFixInfos());
             dataset.export(new File("./buggy_lines/" + repo_name + ".json"));
+        } else if(cmd.equals("checkout")) {
+            String bug_id = args[2], to_path = args[3];
+            repo.checkout_to(new File(to_path), bug_id);
+        } else if(cmd.equals("build")) {
+
         }
     }
 }
