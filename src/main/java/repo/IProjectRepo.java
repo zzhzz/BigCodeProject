@@ -1,3 +1,4 @@
+package repo;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
@@ -9,6 +10,6 @@ public interface IProjectRepo {
     boolean isFix(String msg);
     void buildRepo();
     void checkout_to(File directory, String brach_name);
-    void init();
-    List<BugFixInfo> getBugFixInfos();
+    Repository getRepository();
+    String getBuildCmd();
 }

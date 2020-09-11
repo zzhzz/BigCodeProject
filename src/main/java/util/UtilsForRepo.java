@@ -1,3 +1,6 @@
+package util;
+
+import dataset.item.BugFixInfo;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -17,7 +20,8 @@ import java.util.List;
 
 public class UtilsForRepo {
 
-    static CanonicalTreeParser getTreeParser(Repository repository, RevCommit commit) {
+    public static CanonicalTreeParser getTreeParser(Repository repository, RevCommit commit) {
+
         ObjectId treeId = commit.getTree().getId();
         try(ObjectReader reader = repository.newObjectReader()) {
             return new CanonicalTreeParser(null, reader, treeId);
@@ -27,7 +31,7 @@ public class UtilsForRepo {
         return null;
     }
 
-    static BugFixInfo getFixInfo(Git git, RevCommit bug_commit, RevCommit fix_commit){
+    public static BugFixInfo getFixInfo(Git git, RevCommit bug_commit, RevCommit fix_commit){
         Repository repository = git.getRepository();
         String msg = fix_commit.getFullMessage();
         BugFixInfo info = new BugFixInfo();

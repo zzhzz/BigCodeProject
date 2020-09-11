@@ -1,20 +1,43 @@
-import java.io.File;
+import repo.CamelRepo;
+import repo.HadoopRepo;
+import repo.IProjectRepo;
+import task.*;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) {
-        String repo_name = args[0], cmd = args[1];
-        String repo_path = "/home/zzhzz/Documents/BigCodeProject/" + repo_name + "/";
-        IProjectRepo repo = new HadoopRepo("Hadoop", repo_path);
-        repo.buildRepo();
-        if(cmd.equals("init")) {
-            repo.init();
-            FaultDataset dataset = new FaultDataset(repo.getBugFixInfos());
-            dataset.export(new File("./buggy_lines/" + repo_name + ".json"));
-        } else if(cmd.equals("checkout")) {
-            String bug_id = args[2], to_path = args[3];
-            repo.checkout_to(new File(to_path), bug_id);
-        } else if(cmd.equals("build")) {
 
+
+    static Map<String, Class<? extends IProjectRepo>> classMap = new HashMap<>();
+    static Map<String, Class<? extends ITask>> taskMap = new HashMap<>();
+
+    static {
+        classMap.put("hadoop", HadoopRepo.class);
+        classMap.put("camel", CamelRepo.class);
+        taskMap.put("fl", FaultLocalizeTask.class);
+        taskMap.put("checkout", CheckoutTask.class);
+        taskMap.put("maven-build", MavenBuildTask.class);
+    }
+
+    public static void main(String[] args) {
+        if(args.length < 2)  {
+            throw new RuntimeException("Usage: java -jar BigCode.jar [project_name] [task_name] [task_args]");
         }
+        String repo_name = args[0], task_name = args[1];
+        String repo_path = "/home/zzhzz/Documents/BigCodeProject/" + repo_name + "/";
+        IProjectRepo repo = null;
+        ITask task = null;
+        try {
+            repo = classMap.get(repo_name)
+                        .getConstructor(String.class, String.class)
+                        .newInstance(repo_name, repo_path);
+            repo.buildRepo();
+            task = taskMap.get(task_name).getConstructor().newInstance();
+        } catch (InstantiationException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        task.solve(repo, args);
     }
 }
