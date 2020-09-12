@@ -1,5 +1,7 @@
 package repo;
 
+import com.google.re2j.Matcher;
+import com.google.re2j.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
@@ -12,8 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class HadoopRepo implements IProjectRepo {

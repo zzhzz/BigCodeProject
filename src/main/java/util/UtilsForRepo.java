@@ -2,6 +2,7 @@ package util;
 
 import dataset.item.BugFixInfo;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
@@ -40,10 +41,12 @@ public class UtilsForRepo {
         String commit_id = bug_commit.getId().name();
         info.setFixCommitId(fix_commit.getId().name());
         info.setBugCommitId(commit_id);
+        CanonicalTreeParser bug_v = UtilsForRepo.getTreeParser(repository, bug_commit);
+        CanonicalTreeParser fix_v = UtilsForRepo.getTreeParser(repository, fix_commit);
         OutputStream stream = DisabledOutputStream.INSTANCE;
         try (DiffFormatter formatter = new DiffFormatter(stream)) {
             formatter.setRepository(repository);
-            List<DiffEntry> entries = formatter.scan(bug_commit, fix_commit);
+            List<DiffEntry> entries = git.diff().setOldTree(bug_v).setNewTree(fix_v).call();
             for (DiffEntry entry : entries) {
                 FileHeader header = formatter.toFileHeader(entry);
                 String fix_path = entry.getNewPath();
@@ -58,7 +61,7 @@ public class UtilsForRepo {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }
         return info;

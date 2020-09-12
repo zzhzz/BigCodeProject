@@ -1,5 +1,7 @@
 package repo;
 
+import com.google.re2j.Matcher;
+import com.google.re2j.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
@@ -10,12 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CamelRepo implements IProjectRepo {
 
-    final static String camel_regex = "(CAMEL)(-|.|=| )*\\d";
+    final static String camel_regex = "((CAMEL|CAME|CAMWL|)(-|.|=| )*\\d)|fix";
     final static String LANGUAGE = "JAVA";
     final static String BUILD_CMD = "mvn install -Dfastinstall";
     final static Pattern pattern = Pattern.compile(camel_regex, Pattern.CASE_INSENSITIVE);
