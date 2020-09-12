@@ -17,7 +17,7 @@ public class CamelRepo implements IProjectRepo {
 
     final static String camel_regex = "(CAMEL)(-|.|=| )*\\d";
     final static String LANGUAGE = "JAVA";
-    final static String BUILD_CMD = "mvn package -DskipTests";
+    final static String BUILD_CMD = "mvn install -Dfastinstall";
     final static Pattern pattern = Pattern.compile(camel_regex, Pattern.CASE_INSENSITIVE);
 
     private Repository repository = null;

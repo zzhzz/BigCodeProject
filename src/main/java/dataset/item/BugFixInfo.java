@@ -19,10 +19,24 @@ public class BugFixInfo {
     private int bug_id;
 
     @Expose
+    private String fix_commit_id;
+
+    @Expose
+    private String bug_commit_id;
+
+    @Expose
     private List<Map<String, String>> buggyLines = new ArrayList<>();
 
     public void setBug_id(int id) {
         this.bug_id = id;
+    }
+
+    public void setBugCommitId(String id) {
+        this.bug_commit_id = id;
+    }
+
+    public void setFixCommitId(String id) {
+        this.fix_commit_id = id;
     }
 
     public void setFixTime(int time) {

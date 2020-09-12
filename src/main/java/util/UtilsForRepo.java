@@ -38,24 +38,21 @@ public class UtilsForRepo {
         info.setFixTime(fix_commit.getCommitTime());
         info.setMessage(msg);
         String commit_id = bug_commit.getId().name();
-        CanonicalTreeParser fix_v_iter = getTreeParser(repository, fix_commit);
-        CanonicalTreeParser bug_v_iter = getTreeParser(repository, bug_commit);
+        info.setFixCommitId(fix_commit.getId().name());
+        info.setBugCommitId(commit_id);
         OutputStream stream = DisabledOutputStream.INSTANCE;
         try (DiffFormatter formatter = new DiffFormatter(stream)) {
             formatter.setRepository(repository);
-            List<DiffEntry> entries = formatter.scan(bug_v_iter, fix_v_iter);
+            List<DiffEntry> entries = formatter.scan(bug_commit, fix_commit);
             for (DiffEntry entry : entries) {
                 FileHeader header = formatter.toFileHeader(entry);
                 String fix_path = entry.getNewPath();
                 String buggy_path = entry.getOldPath();
                 EditList editList = header.toEditList();
-                for (Edit edit : editList) {
-                    int lineno_start = edit.getBeginA(), lineno_end = edit.getEndA();
-                    if (edit.getType() == Edit.Type.REPLACE) {
-                        if (!fix_path.equals(buggy_path)) {
-                            System.out.println(fix_commit.getFooterLines());
-                            throw new RuntimeException();
-                        } else if(fix_path.endsWith(".java")){
+                if(fix_path.equals(buggy_path) && fix_path.endsWith(".java")){
+                    for (Edit edit : editList) {
+                        int lineno_start = edit.getBeginA(), lineno_end = edit.getEndA();
+                        if (edit.getType() == Edit.Type.REPLACE) {
                             info.addFaultyLine(buggy_path, lineno_start, lineno_end);
                         }
                     }
