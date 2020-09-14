@@ -42,6 +42,16 @@
             <artifactId>re2j</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-symbol-solver-core</artifactId>
+            <version>3.16.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core-serialization</artifactId>
+            <version>3.16.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -50,7 +60,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass>
+                            <mainClass>util.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

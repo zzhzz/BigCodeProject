@@ -1,6 +1,9 @@
+package util;
+
 import repo.CamelRepo;
 import repo.HadoopRepo;
 import repo.IProjectRepo;
+import repo.MySQLRepo;
 import task.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,9 +19,21 @@ public class Main {
     static {
         classMap.put("hadoop", HadoopRepo.class);
         classMap.put("camel", CamelRepo.class);
+        classMap.put("mysql", MySQLRepo.class);
+
         taskMap.put("fl", FaultLocalizeTask.class);
         taskMap.put("checkout", CheckoutTask.class);
         taskMap.put("maven-build", MavenBuildTask.class);
+        taskMap.put("ast", ASTgenTask.class);
+    }
+
+
+    public static void registerRepo(String name, Class<? extends IProjectRepo> claz) {
+        classMap.put(name, claz);
+    }
+
+    public static void registerTask(String name, Class<? extends ITask> claz) {
+        taskMap.put(name, claz);
     }
 
     public static void main(String[] args) {

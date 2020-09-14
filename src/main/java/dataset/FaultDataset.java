@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FaultDataset implements IDataset{
+public class FaultDataset implements IDataset {
 
     @Expose
     List<BugFixInfo> dataList = new ArrayList<>();

@@ -1,28 +1,24 @@
 package task;
 
 import dataset.FaultDataset;
-import dataset.IDataset;
 import dataset.item.BugFixInfo;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import repo.IProjectRepo;
 import util.UtilsForRepo;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 public class FaultLocalizeTask implements ITask{
-
     final static String bug_branch_prefix = "BugId-";
     FaultDataset dataset = new FaultDataset();
+
     @Override
     public void solve(IProjectRepo repo, String[] args) {
         if(args.length < 3) {
