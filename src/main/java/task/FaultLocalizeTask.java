@@ -1,6 +1,6 @@
 package task;
 
-import dataset.FaultDataset;
+import dataset.Dataset;
 import dataset.item.BugFixInfo;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
@@ -17,15 +17,16 @@ import java.util.List;
 
 public class FaultLocalizeTask implements ITask{
     final static String bug_branch_prefix = "BugId-";
-    FaultDataset dataset = new FaultDataset();
+    final static String fix_branch_prefix = "FixId-";
+    Dataset<BugFixInfo> dataset = new Dataset<>();
 
     @Override
     public void solve(IProjectRepo repo, String[] args) {
-        if(args.length < 3) {
+        if(args.length < 4) {
             System.err.println("Should give save_path for fault information.");
             throw new RuntimeException("Wrong arguments.");
         }
-        String save_path = args[2];
+        String save_path = args[3];
         System.out.println("Task FL start.");
         Git git = new Git(repo.getRepository());
         Iterable<RevCommit> commits;
@@ -45,9 +46,11 @@ public class FaultLocalizeTask implements ITask{
                         BugFixInfo info = UtilsForRepo.getFixInfo(git, commit, previous_commit);
                         if (info.size() != 0) {
                             String branch_name = bug_branch_prefix + bug_id;
+                            String fix_branch = fix_branch_prefix + bug_id;
                             info.setBug_id(bug_id);
                             dataset.add(info);
                             git.branchCreate().setStartPoint(commit).setName(branch_name).setForce(true).call();
+                            git.branchCreate().setStartPoint(previous_commit).setName(fix_branch).setForce(true).call();
                             bug_id++;
                         }
                     }

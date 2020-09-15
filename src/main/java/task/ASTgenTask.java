@@ -4,7 +4,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.CompilationUnit;
-import dataset.ASTDataset;
+import dataset.Dataset;
 import dataset.item.ASTInfo;
 import repo.IProjectRepo;
 
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 public class ASTgenTask implements ITask {
 
-    ASTDataset dataset = new ASTDataset();
+    Dataset<ASTInfo> dataset = new Dataset<>();
 
     @Override
     public void solve(IProjectRepo repo, String[] args) {

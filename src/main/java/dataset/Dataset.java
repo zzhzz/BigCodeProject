@@ -9,20 +9,24 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class FaultDataset implements IDataset {
+public class Dataset<T> {
 
     @Expose
-    List<BugFixInfo> dataList = new ArrayList<>();
+    List<T> dataList = new ArrayList<>();
 
-    public FaultDataset() {}
+    public Dataset() {}
 
-    public void add(BugFixInfo info){
+    public void add(T info){
         dataList.add(info);
     }
 
-    @Override
+    public void addAll(Collection<T> collection){
+        dataList.addAll(collection);
+    }
+
     public void export(File export_path) {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
@@ -40,7 +44,6 @@ public class FaultDataset implements IDataset {
         }
     }
 
-    @Override
     public int size() {
         return dataList.size();
     }

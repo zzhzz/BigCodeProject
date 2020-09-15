@@ -4,7 +4,7 @@ import com.google.re2j.Pattern;
 
 public class HadoopRepo extends DefaultRepo implements IProjectRepo {
     final public static String LANGUAGE = "JAVA";
-    final static String BUILD_CMD = "mvn package -Pdist -DskipTests";
+    final static String BUILD_CMD = "mvn package -Pdist -DskipTests -Dmaven.javadoc.skip=true";
     final static String URL = "https://github.com/apache/hadoop.git";
     final static String regex = "(HADOOP|YARN|HDFS" +
             "|MAPREDUCE|MR|HDS|REDUCE|HADOP|MAPREUDUCE" +

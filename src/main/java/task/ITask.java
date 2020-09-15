@@ -1,6 +1,5 @@
 package task;
 
-import dataset.IDataset;
 import repo.IProjectRepo;
 
 public interface ITask {

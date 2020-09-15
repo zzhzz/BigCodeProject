@@ -11,7 +11,7 @@ public class MavenBuildTask implements ITask {
         if(args.length < 4) {
             throw new RuntimeException("BuildTask: please provide project path and JAVA_HOME environment");
         }
-        String project_path = args[2], java_home = args[3];
+        String project_path = args[3], java_home = args[4];
         String[] cmds = {"/bin/bash", "-c", repo.getBuildCmd()};
         ProcessBuilder builder = new ProcessBuilder();
         try {

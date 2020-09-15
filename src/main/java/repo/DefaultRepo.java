@@ -81,7 +81,7 @@ public class DefaultRepo implements IProjectRepo {
                 throw new NoSuchFieldError("URL");
             }
         }
-        System.out.println("Start Cloning " + this.name);
+        System.out.println("Start Cloning " + this.name + " branch at " + branch_name);
         try {
             Git.cloneRepository().setURI(this.path).setDirectory(directory)
                     .setBranchesToClone(Collections.singletonList("refs/heads/" + branch_name))

@@ -6,6 +6,7 @@ import repo.IProjectRepo;
 import repo.MySQLRepo;
 import task.*;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +41,8 @@ public class Main {
         if(args.length < 2)  {
             throw new RuntimeException("Usage: java -jar BigCode.jar [project_name] [task_name] [task_args]");
         }
-        String repo_name = args[0], task_name = args[1];
-        String repo_path = "/home/zzhzz/Documents/BigCodeProject/" + repo_name + "/";
+        String repo_name = args[0], task_name = args[1], base_path = args[2];
+        String repo_path = base_path + "/" + repo_name + "/";
         IProjectRepo repo = null;
         ITask task = null;
         try {
