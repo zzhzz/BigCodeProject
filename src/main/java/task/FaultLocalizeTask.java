@@ -1,5 +1,6 @@
 package task;
 
+import com.google.re2j.Matcher;
 import dataset.Dataset;
 import dataset.item.BugFixInfo;
 import me.tongfei.progressbar.ProgressBar;
@@ -42,8 +43,10 @@ public class FaultLocalizeTask implements ITask{
             for(RevCommit commit : ProgressBar.wrap(commitList, barBuilder)) {
                 if (previous_commit != null) {
                     String msg = previous_commit.getFullMessage();
-                    if (repo.isFix(msg)) {
+                    Matcher matcher = repo.isFix(msg);
+                    if (matcher.find()) {
                         BugFixInfo info = UtilsForRepo.getFixInfo(git, commit, previous_commit);
+                        info.setIssueID(matcher.group(0));
                         if (info.size() != 0) {
                             String branch_name = bug_branch_prefix + bug_id;
                             String fix_branch = fix_branch_prefix + bug_id;

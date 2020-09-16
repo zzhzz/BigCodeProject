@@ -9,6 +9,9 @@ import java.util.Map;
 
 public class BugFixInfo {
     @Expose
+    private String issueID;
+
+    @Expose
     private String message;
 
     @Expose
@@ -40,6 +43,10 @@ public class BugFixInfo {
 
     public void setFixTime(int time) {
         this.time = time;
+    }
+
+    public void setIssueID(String issueID) {
+        this.issueID = issueID;
     }
 
     public void setMessage(String msg) {

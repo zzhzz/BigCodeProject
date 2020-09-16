@@ -49,12 +49,12 @@ public class DefaultRepo implements IProjectRepo {
     }
 
     @Override
-    public boolean isFix(String msg) {
+    public Matcher isFix(String msg) {
         if(pattern == null) {
             throw new NoSuchFieldError("pattern");
         }
         Matcher matcher = pattern.matcher(msg.trim());
-        return matcher.find();
+        return matcher;
     }
 
     @Override
